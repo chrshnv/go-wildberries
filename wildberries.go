@@ -1,11 +1,15 @@
 package go_wildberries
 
-import "net/http"
+import (
+	"github.com/chrshnv/go-wildberries/feedbacks"
+)
 
 type WildberriesAPI struct {
-	client http.Client
+	FeedbacksAPI feedbacks.WildberriesFeedbacksAPI
 }
 
 func NewWildberriesAPI(auth string) *WildberriesAPI {
-	return &WildberriesAPI{client: http.Client{Transport: NewWildberriesAuthTransport(auth)}}
+	return &WildberriesAPI{
+		FeedbacksAPI: feedbacks.NewFeedbacksAPI(auth),
+	}
 }
