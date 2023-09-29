@@ -20,7 +20,7 @@ func (c *CreatedDateTime) UnmarshalJSON(b []byte) error {
 		return nil
 	}
 
-	t, err := time.Parse("2023-09-29T11:20:11+0000", value) //parse time
+	t, err := time.Parse("yyyy-MM-dd'T'HH:mm:ssZ", value) //parse time
 	if err != nil {
 		return err
 	}
@@ -29,5 +29,5 @@ func (c *CreatedDateTime) UnmarshalJSON(b []byte) error {
 }
 
 func (c CreatedDateTime) MarshalJSON() ([]byte, error) {
-	return []byte(`"` + time.Time(c).Format("2023-09-29T11:20:11+0000") + `"`), nil
+	return []byte(`"` + time.Time(c).Format("yyyy-MM-dd'T'HH:mm:ssZ") + `"`), nil
 }
