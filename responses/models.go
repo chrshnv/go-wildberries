@@ -1,4 +1,4 @@
-package go_wildberries
+package responses
 
 type WildberriesResponse[T any] struct {
 	Data             T        `json:"data"`
