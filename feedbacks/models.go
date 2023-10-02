@@ -19,5 +19,8 @@ type WildberriesFeedbackListResponse struct {
 			Text  string `json:"text"`
 			State string `json:"state"`
 		} `json:"answer"`
+		ProductDetails struct {
+			SKU string `json:"supplierArticle"`
+		} `json:"productDetails"`
 	} `json:"feedbacks"`
 }
