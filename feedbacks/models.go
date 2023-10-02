@@ -15,12 +15,16 @@ type WildberriesFeedbackListResponse struct {
 		ProductValuation int                       `json:"productValuation"`
 		CreatedDate      responses.CreatedDateTime `json:"createdDate"`
 		State            string                    `json:"state"`
-		Answer           *struct {
+		Answer           struct {
 			Text  string `json:"text"`
 			State string `json:"state"`
 		} `json:"answer"`
-		ProductDetails *struct {
+		ProductDetails struct {
 			SKU string `json:"supplierArticle"`
 		} `json:"productDetails"`
+		PhotoLinks *[]struct {
+			FullSize string `json:"fullSize"`
+			MiniSize string `json:"miniSize"`
+		} `json:"photoLinks"`
 	} `json:"feedbacks"`
 }
