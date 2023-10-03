@@ -20,7 +20,9 @@ type WildberriesFeedbackListResponse struct {
 			State string `json:"state"`
 		} `json:"answer"`
 		ProductDetails struct {
-			SKU string `json:"supplierArticle"`
+			SKU   string `json:"supplierArticle"`
+			ImtId int    `json:"imtId"`
+			NmId  int    `json:"nmId"`
 		} `json:"productDetails"`
 		PhotoLinks *[]struct {
 			FullSize string `json:"fullSize"`
