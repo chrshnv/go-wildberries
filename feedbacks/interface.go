@@ -1,16 +1,19 @@
 package feedbacks
 
 import (
+	"bytes"
 	"encoding/json"
 	"fmt"
-	"github.com/chrshnv/go-wildberries/client"
-	"github.com/chrshnv/go-wildberries/responses"
 	"io"
 	"net/http"
+
+	"github.com/chrshnv/go-wildberries/client"
+	"github.com/chrshnv/go-wildberries/responses"
 )
 
 type WildberriesFeedbacksAPI interface {
 	Fetch(isAnswered bool, take, skip int) (responses.WildberriesResponse[WildberriesFeedbackListResponse], error)
+	WorkWithFeedback(id string, text string) error
 }
 
 type wildberriesFeedbacksAPI struct {
@@ -45,6 +48,30 @@ func (w *wildberriesFeedbacksAPI) Fetch(isAnswered bool, take, skip int) (respon
 	}
 
 	return result, nil
+}
+
+func (w *wildberriesFeedbacksAPI) WorkWithFeedback(id string, text string) error {
+	body := WildberriesFeedbackPatchAnswer{
+		Id:   id,
+		Text: text,
+	}
+
+	payload, err := json.Marshal(body)
+	if err != nil {
+		return err
+	}
+
+	req, err := http.NewRequest(http.MethodPatch, "https://feedbacks-api.wb.ru/api/v1/feedbacks", bytes.NewBuffer(payload))
+	if err != nil {
+		return err
+	}
+
+	_, err = w.client.Do(req)
+	if err != nil {
+		return err
+	}
+
+	return nil
 }
 
 func NewFeedbacksAPI(token string) WildberriesFeedbacksAPI {

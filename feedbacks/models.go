@@ -30,3 +30,8 @@ type WildberriesFeedbackListResponse struct {
 		} `json:"photoLinks"`
 	} `json:"feedbacks"`
 }
+
+type WildberriesFeedbackPatchAnswer struct {
+	Id   string `json:"id"`
+	Text string `json:"text"`
+}
