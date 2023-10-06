@@ -13,7 +13,8 @@ import (
 
 type WildberriesFeedbacksAPI interface {
 	Fetch(isAnswered bool, take, skip int) (responses.WildberriesResponse[WildberriesFeedbackListResponse], error)
-	WorkWithFeedback(id string, text string) error
+	WorkWithFeedbackAnswer(id string, text string) error
+	WorkWithFeedbackView(id string, wasViewed bool) error
 }
 
 type wildberriesFeedbacksAPI struct {
@@ -50,10 +51,34 @@ func (w *wildberriesFeedbacksAPI) Fetch(isAnswered bool, take, skip int) (respon
 	return result, nil
 }
 
-func (w *wildberriesFeedbacksAPI) WorkWithFeedback(id string, text string) error {
+func (w *wildberriesFeedbacksAPI) WorkWithFeedbackAnswer(id string, text string) error {
 	body := WildberriesFeedbackPatchAnswer{
 		Id:   id,
 		Text: text,
+	}
+
+	payload, err := json.Marshal(body)
+	if err != nil {
+		return err
+	}
+
+	req, err := http.NewRequest(http.MethodPatch, "https://feedbacks-api.wb.ru/api/v1/feedbacks", bytes.NewBuffer(payload))
+	if err != nil {
+		return err
+	}
+
+	_, err = w.client.Do(req)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func (w *wildberriesFeedbacksAPI) WorkWithFeedbackView(id string, wasViewed bool) error {
+	body := WildberriesFeedbackPatchViewed{
+		Id:        id,
+		WasViewed: wasViewed,
 	}
 
 	payload, err := json.Marshal(body)

@@ -35,3 +35,8 @@ type WildberriesFeedbackPatchAnswer struct {
 	Id   string `json:"id"`
 	Text string `json:"text"`
 }
+
+type WildberriesFeedbackPatchViewed struct {
+	Id        string `json:"id"`
+	WasViewed bool   `json:"wasViewed"`
+}
