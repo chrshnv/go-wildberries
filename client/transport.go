@@ -1,6 +1,9 @@
 package client
 
-import "net/http"
+import (
+	"fmt"
+	"net/http"
+)
 
 type WildberriesAuthTransport struct {
 	transport http.RoundTripper
@@ -8,7 +11,7 @@ type WildberriesAuthTransport struct {
 }
 
 func (t *WildberriesAuthTransport) RoundTrip(req *http.Request) (*http.Response, error) {
-	req.Header.Add("Authorization", t.token)
+	req.Header.Add("Authorization", fmt.Sprintf("Bearer %s", t.token))
 	return t.transport.RoundTrip(req)
 }
 
